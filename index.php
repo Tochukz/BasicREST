@@ -1,4 +1,9 @@
 <?php
+/**
+ *@author Tochukwu Nwachukwu truetochukz@gmail.com
+ *@link http://tochukwu.xyz
+ *
+ */
 require_once('storage.php');
 $types = Storage::getAcceptHeaderArray($_SERVER['HTTP_ACCEPT']);
 $type = Storage::getPreferredType($types);

@@ -1,23 +1,24 @@
 <?php
-class Storage{
-    /*
-    |--------------------------------------------------------------------------
-    |   Storage Class
-    |--------------------------------------------------------------------------
-    |
-    |This class handles all the requests and responses for this services
-    |It takes all POST request and insert the record into the storage.txt  file
-    |
-    */
+/**
+ * @purpose 
+ * 
+ * This class handles all the requests and responses for the service.
+ * It takes all POST request and insert the record into the storage.txt  file
+ *
+ */
+class Storage
+{
+
 	protected $storageFile = 'storage.txt';
     
-    /*
-     * Return a single record from the storage file storage.txt
+    /**
+     * Return a single record from the storage file storage.txt.
      *
      * @param string $name
      * @return array $data_arry
      */
-	public function show(string $name): array{
+	public function show(string $name): array
+    {
 		$fileHandler = $this->getFileHandler('r');
 		while(!feof($fileHandler)){
 			$line = fgets($fileHandler);
@@ -38,13 +39,14 @@ class Storage{
 		return $data_arry;
 	}
 
-    /*
+    /**
      * Return all the records from the storage file storage.txt
      *
      * @param string $name
      * @return array $data_arry
      */
-	public function showAll(){
+	public function showAll(): array
+    {
 		$fileHandler = $this->getFileHandler('r');
 		$data_arry = [];
 		while(!feof($fileHandler)){
@@ -61,13 +63,14 @@ class Storage{
 		return $data_arry;
 	}
 
-    /*
+    /**
      * Adds a single record to the storage file storage.txt
      *
      * @param array $data
      * @return array 
      */
-	public function create(array $data){
+	public function create(array $data): array
+    {
 		$fileHandler = $this->getFileHandler('a');
 		$written = fwrite($fileHandler, $data['name'].'|'.$data['link']."\n");
 		$this->closeFile($fileHandler);
@@ -77,16 +80,17 @@ class Storage{
 		return ['name'=>$data['name'], 'link'=>$data['link']];
 	}
 	
-   /*
-	* Updates a line in the storage.txt for a PUT request
+   /**
+    *  Updates a line in the storage.txt for a PUT request
     * The records in the storage.txt file is read and written to a new file storage.tmp
     * And if statement is used to determine the record of instrest. The record of interest is updated when it is identified 	
-	* If a line is overwritten, the storage.tmp file is renamed storage.txt and afterwards unlinked at the end of the loop.
+    * If a line is overwritten, the storage.tmp file is renamed storage.txt and afterwards unlinked at the end of the loop.
     *
     * @param array $data
     * @return array $updated_data
 	*/
-	public function update(array $data):array{
+	public function update(array $data): array
+    {
 		$name = $data['name'];
 		$new_link = $data['link'];
 		$fileHandler = $this->getFileHandler('r');
@@ -116,13 +120,14 @@ class Storage{
 		return  $updated_data;
         
 	}
-	/*
+	/**
      * Delete a specified record in the storage.txt file for a DELETE request
      *
      * @param string $name
      * @return null
      */
-	public function delete(string $name){
+	public function delete(string $name)
+    {
 		$fileHandler = $this->getFileHandler('r');
 		$tmpHandler = fopen('storage.tmp', 'w');
 		$deleted = false;
@@ -146,23 +151,25 @@ class Storage{
 		return null;
 	}
 
-    /*
+    /**
      * @param string $action
      * @return object 
      */
-	public function getFileHandler($action){
+	public function getFileHandler($action):object
+    {
 		return  fopen($this->storageFile, $action);
 	}
 
-    /*
+    /**
      * @param object $handler
      * @return void
      */
-	public function closeFile($handler){
+	public function closeFile($handler)
+    {
 		fclose($handler);
 	}
 
-	/* 
+	/* *
      * This method parses the string returned by the $_SERVER['HTTP_ACCEPT'] supper global.
      * It creates an array of all the acceptable types defined in the request header Accept.
 	 * The array is sorted according to the q values of the Types with the type having the highest q value coming first
@@ -171,7 +178,8 @@ class Storage{
      * @return array $types
      */
         
-	public static function getAcceptHeaderArray(string $http_accept):array {
+	public static function getAcceptHeaderArray(string $http_accept): array
+    {
 		$types= explode(',', strtolower($http_accept));
 		$typesWithQ = [];
 		for($x=0; $x<count($types); $x++){
@@ -202,7 +210,7 @@ class Storage{
 		return $types;
 	}
 
-    /*
+    /**
      * This method takes the array returned by the getAcceptHeaderArray() method
      * It runs through the array element and returns the first 'Accept type' which matches any of the defined response type of the services
      * This way the Accept type having the highest q value in the service is selected
@@ -211,7 +219,8 @@ class Storage{
      * @return string $preferred_type
      */
     
-	public static function getPreferredType(array $types):string{
+	public static function getPreferredType(array $types): string
+    {
 		foreach($types as $type){
 			switch($type){
 				case 'application/xml':
@@ -230,7 +239,7 @@ class Storage{
 		}
 		return $preferred_type;
 	}
-    /*
+    /**
      * This method format the response to be returned to the client
      * It handles four content types including application/json, application/xml, text/html and text/plain which is the default
      *
@@ -238,7 +247,8 @@ class Storage{
      * @param string $type
      * @return string $formatedData
      */
-	public static function getResponseBody($data, $type){
+	public static function getResponseBody($data, $type): string
+    {
 		switch($type){
 			case 'application/json':
 				$formatedData = json_encode($data, JSON_UNESCAPED_SLASHES);
@@ -284,13 +294,14 @@ class Storage{
 		}
 		return $formatedData;
 	}
-    /*
+    /**
      * This method parses the xml input from the client
      *
      * @param 'xml string' $xmlStr
      * @return array $item 
      */
-    public static function parseXML($xmlStr):array{
+    public static function parseXML($xmlStr): array
+    {
         /*Basic parsing using simplexml_load_string */ 
         $xmlObj = simplexml_load_string($xmlStr);//SimpleXMLElement Object
        if(isset($xmlObj->link)){
