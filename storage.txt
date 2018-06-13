@@ -1,0 +1,15 @@
+Guitar|http://joburg.biz
+Piano|http://johannesburgmall.org
+Suite|http://Edgars.biz
+SmartPhone|http://smartphones.net
+Jacket|http://Jacketplace.org
+meat|http://meatshop.co.za
+Jeans|http:edgars.net
+TShirt|http:edgarspalace.net
+Ties|http://whoolworth.net
+deodorant|http://checker.co.za
+cellular|http://cellular.org
+samsungcell|http://samsung.org
+Samsung Experince|http://cellwhart.com
+toothbrush|http://tooth.org
+Nelkon|http://nelkon_and_parker.com
