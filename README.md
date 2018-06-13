@@ -1,10 +1,9 @@
 # A BASIC REST SERVICE WITH PHP
 This is a RESTfull API in its most basic form.
-<<<<<<< HEAD
+
 This API stores and returns products and their corresponding URL. Say for example an item such as a Shoe you found online and the uri for the shoe.
-=======
+
 This API stores and returns items and links. Say for example an item such as a Shoe you found online and the uri for the shoe.
->>>>>>> ca6e8d12777de3ba1a49a3501ba7ce7b4adc2e26
 In JSON format this would be
 ```json
     {
